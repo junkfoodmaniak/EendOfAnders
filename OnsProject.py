@@ -34,11 +34,13 @@ class Variable(LambdaTerm):
 class Abstraction(LambdaTerm):
     """Represents a lambda term of the form (λx.M)."""
 
-    def __init__(self, variable, body): raise NotImplementedError
+    def __init__(self, variable, body):
+        self.variable=variable
+        self.body=body
 
     def __repr__(self): raise NotImplementedError
 
-    def __str__(self): raise NotImplementedError
+    def __str__(self):
 
     def __call__(self, argument): raise NotImplementedError
 
@@ -48,7 +50,9 @@ class Abstraction(LambdaTerm):
 class Application(LambdaTerm):
     """Represents a lambda term of the form (M N)."""
 
-    def __init__(self, function, argument): raise NotImplementedError
+    def __init__(self, function, argument):
+        self.function=function
+        self.argument=argument
 
     def __repr__(self): raise NotImplementedError
 
