@@ -48,12 +48,22 @@ class Abstraction(LambdaTerm):
 class Application(LambdaTerm):
     """Represents a lambda term of the form (M N)."""
 
-    def __init__(self, function, argument): raise NotImplementedError
+    def __init__(self, function, argument):
+        self.function=function
+        self.argument=argument
 
     def __repr__(self): raise NotImplementedError
 
     def __str__(self): raise NotImplementedError
 
-    def substitute(self, rules): raise NotImplementedError
+    def substitute(self, rules):
+        if type(self.function)!=Abstraction:
+            raise TypeError
+        else:
+            for i in range(len(function.body)):
+                if self.function.body[i]==self.argument:
+                    self.function[i]=self.argument
+                    
+
 
     def reduce(self): raise NotImplementedError
