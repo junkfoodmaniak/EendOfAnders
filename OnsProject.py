@@ -26,7 +26,8 @@ class Variable(LambdaTerm):
 
     def __repr__(self): raise NotImplementedError
 
-    def __str__(self): raise NotImplementedError
+    def __str__(self):
+        return f'Variable({self.symbol})'
 
     def substitute(self, rules): raise NotImplementedError
 
@@ -41,6 +42,7 @@ class Abstraction(LambdaTerm):
     def __repr__(self): raise NotImplementedError
 
     def __str__(self):
+        return f'Abstraction({self.variable},{self.body})'
 
     def __call__(self, argument): raise NotImplementedError
 
@@ -56,8 +58,15 @@ class Application(LambdaTerm):
 
     def __repr__(self): raise NotImplementedError
 
-    def __str__(self): raise NotImplementedError
+    def __str__(self):
+        return f'Application({self.function},{self.argument})'
 
     def substitute(self, rules): raise NotImplementedError
 
     def reduce(self): raise NotImplementedError
+
+    term=[[x], [], []]
+    #(lambda x.[] y)
+
+    #example:
+    #[lambda[x], [x], [y]] gives y
