@@ -61,10 +61,19 @@ class Application(LambdaTerm):
     def __str__(self):
         return f'Application({self.function},{self.argument})'
 
-    def substitute(self, rules): raise NotImplementedError
+    def substitute(self, rules):
+        if type(self.function)!=Abstraction: #the function has to be an abstraction, or else substitution is not possible
+            raise TypeError
+        else:
+            for i in range(len(function.body)):
+                if self.function.body[i]==self.argument:
+                    self.function[i]=self.argument
+                    
+
 
     def reduce(self): raise NotImplementedError
 
+    
     term=[[x], [], []]
     #(lambda x.[] y)
 
