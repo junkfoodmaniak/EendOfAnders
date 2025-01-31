@@ -54,7 +54,10 @@ class Abstraction(LambdaTerm):
     def __str__(self):
         return f'(λ{self.variable}.{self.body})'
 
-    def __call__(self, argument): raise NotImplementedError
+    def __call__(self, argument):
+        rules={self.variable:argument}
+        self2=self.body.substitute(rules)
+        return
 
     def substitute(self, rules):
         if self.variable in rules:
