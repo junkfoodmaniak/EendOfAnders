@@ -132,10 +132,11 @@ class Variable(LambdaTerm):
     def __init__(self, symbol):
         self.symbol=symbol
 
-    def __repr__(self): raise NotImplementedError
+    def __repr__(self):
+        return f'Variable({self.symbol})'
 
     def __str__(self):
-        return f'Variable({self.symbol})'
+        return f'{self.symbol}'
 
     def substitute(self, rules): raise NotImplementedError
 
@@ -147,10 +148,11 @@ class Abstraction(LambdaTerm):
         self.variable=variable
         self.body=body
 
-    def __repr__(self): raise NotImplementedError
+    def __repr__(self):
+        return f'Abstraction({repr(self.variable)},{repr(self.body)})'
 
     def __str__(self):
-        return f'Abstraction({self.variable},{self.body})'
+        return f'(λ{self.variable}.{self.body})'
 
     def __call__(self, argument): raise NotImplementedError
 
@@ -164,10 +166,11 @@ class Application(LambdaTerm):
         self.function=function
         self.argument=argument
 
-    def __repr__(self): raise NotImplementedError
+    def __repr__(self):
+        return f'Application({repr(self.function)},{repr(self.argument)})'
 
     def __str__(self):
-        return f'Application({self.function},{self.argument})'
+        return f'({self.function} {self.argument})'
 
     def substitute(self, rules):
         if type(self.function)!=Abstraction: #the function has to be an abstraction, or else substitution is not possible
@@ -176,14 +179,3 @@ class Application(LambdaTerm):
             for i in range(len(function.body)):
                 if self.function.body[i]==self.argument:
                     self.function[i]=self.argument
-                    
-
-
-    def reduce(self): raise NotImplementedError
-
-    
-    term=[[x], [], []]
-    #(lambda x.[] y)
-
-    #example:
-    #[lambda[x], [x], [y]] gives y
