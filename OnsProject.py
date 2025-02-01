@@ -121,7 +121,7 @@ class Abstraction(LambdaTerm):
         if self.variable in rules:
             return self
         else:
-            self2=Abstraction(self.variable,self.body.subtitute(rules))
+            self2=Abstraction(self.variable,self.body.substitute(rules))
             return self2
     
     def reduce(self):
@@ -149,10 +149,12 @@ class Application(LambdaTerm):
     def reduce(self):
         self2=Application(self.function.reduce(),self.argument)
         if type(self2.function)==Abstraction:
-            rules={self2.function.variable:self2.argument}
+            rules={self2.function.variable.symbol:self2.argument}
             self3=self2.function.body.substitute(rules)
             self3.reduce()
             return self3
         else:
             self3=Application(self2.function,self.argument.reduce())
             return self3
+
+print(Application(Abstraction(Variable('a'),Abstraction(Variable('x'),Variable('a'))),Variable('y')).reduce())
