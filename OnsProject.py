@@ -7,7 +7,7 @@ class LambdaTerm:
 
     def fromstring(self):
         """Construct a lambda term from a string."""
-        raise NotImplementedError
+        return self
 
     def substitute(self, rules):
         """Substitute values for keys where they occur."""
@@ -105,3 +105,4 @@ class Application(LambdaTerm):
 #print(Application(Abstraction(Variable("x"),Variable("x")),Variable("x")).reduce())
 # Identity=Abstraction(Variable("x"),Variable("x"))
 # print(Identity(Variable("x")))
+print(LambdaTerm.fromstring('beepboop'))
