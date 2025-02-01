@@ -4,9 +4,7 @@
 
 class LambdaTerm:
     """Abstract Base Class for lambda terms."""
-
     def fromstring(self):
-        """Construct a lambda term from a string."""
 
         easierlist=[] #remove the lambda from the start of the lambda term (self)
         for i in range(len(self)):
@@ -27,7 +25,7 @@ class LambdaTerm:
                 break #the indexes greater than j.
         if dotindex!=-1:
             easierlist.append(firstelement) #In this last step, if there was a dot in the lambdaterm,
-        else: #so if dotindex!=-1, the first element is just appended to easierlist.
+        else: #so if dotindex==-1, the first element is just appended to easierlist.
             easierlist.append(self) #But if there wasn't a dot, self can already be seen as a variable,
             self='' #so then self is appended to easierlist instead of firstelement
         
@@ -58,6 +56,10 @@ class LambdaTerm:
                 secondelement+=self[n] #Add each element of self to the second element
         easierlist.append(secondelement)
         easierlist.append(thirdelement) #add both elements to easierlist, even if they are empty
+
+        if ' ' in easierlist[0]: #if the "variable" has the form (x y), return
+            easierlist[0]=easierlist[0].strip('()').split(" ") #Application(Variable('x'),Variable('y'))
+            return f'Application(Variable({easierlist[0][0]}),Variable({easierlist[0][1]}))'
 
         if len(easierlist[0])!=0 and len(easierlist[1])==0 and len(easierlist[2])==0:
             return f'Variable({easierlist[0]})'
