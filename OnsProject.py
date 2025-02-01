@@ -7,8 +7,6 @@ class LambdaTerm:
 
     def fromstring(self):
         """Construct a lambda term from a string."""
-        if len(self)==1 and self!='λ': #if self is a Variable, output that it is a variable
-            return f'Variable({self})'
 
         easierlist=[] #remove the lambda from the start of the lambda term (self)
         for i in range(len(self)):
@@ -23,7 +21,8 @@ class LambdaTerm:
         for j in range(len(self)):
             if self[j]!='.': #from the (new) start of self to the first dot will be the variable
                 firstelement+=self[j] #so every element found between start and dot will be added to
-            else: #the first element of the list that will be appended to easierlist (as the variable)
+            elif self[j]=='.':
+                dotindex=j #the first element of the list that will be appended to easierlist (as the variable)
                 self=self[(j+1):] #if self[j] is a dot, then self will be changed into a list with only
                 break #the indexes greater than j.
         if dotindex!=-1:
