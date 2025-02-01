@@ -91,15 +91,17 @@ class Application(LambdaTerm):
         return self2
     
     def reduce(self):
-        self2=Application(self.function.reduce(),self.argument.reduce())
+        self2=Application(self.function.reduce(),self.argument)
         if type(self2.function)==Abstraction:
             rules={self2.function.variable:self2.argument}
             self3=self2.function.body.substitute(rules)
+            self3.reduce()
             return self3
         else:
-            return self2
+            self3=Application(self2.function,self.argument.reduce())
+            return self3
         
 
 #print(Application(Abstraction(Variable("x"),Variable("x")),Variable("x")).reduce())
-Identity=Abstraction(Variable("x"),Variable("x"))
-print(Identity(Variable("x")))
+# Identity=Abstraction(Variable("x"),Variable("x"))
+# print(Identity(Variable("x")))
