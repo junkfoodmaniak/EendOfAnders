@@ -71,10 +71,13 @@ class LambdaTerm:
 
     def substitute(self, rules):
         """Substitute values for keys where they occur."""
+        #we don't have to implement this one because all possible forms of lambdaterm heb a substitute function of their own so if all goes well, this function never gets called.
         raise NotImplementedError
 
     def reduce(self):
         """Beta-reduce."""
+        #Same thing as for substitution.
+        raise NotImplementedError
         
 class Variable(LambdaTerm):
     """Represents a variable."""
@@ -88,8 +91,13 @@ class Variable(LambdaTerm):
     def __str__(self):
         return f'{self.symbol}'
 
-    def substitute(self, rules): raise NotImplementedError
-
+    def substitute(self, rules):
+        if self.symbol in rules:
+            self.symbol=rules[self.symbol]
+        return self
+    
+    def reduce(self):
+        return self
 
 class Abstraction(LambdaTerm):
     """Represents a lambda term of the form (λx.M)."""
@@ -104,9 +112,21 @@ class Abstraction(LambdaTerm):
     def __str__(self):
         return f'(λ{self.variable}.{self.body})'
 
-    def __call__(self, argument): raise NotImplementedError
+    def __call__(self, argument):
+        rules={self.variable:argument}
+        self2=self.body.substitute(rules)
+        return self2
 
-    def substitute(self, rules): raise NotImplementedError
+    def substitute(self, rules):
+        if self.variable in rules:
+            return self
+        else:
+            self2=Abstraction(self.variable,self.body.subtitute(rules))
+            return self2
+    
+    def reduce(self):
+        self2=Abstraction(self.variable, self.body.reduce())
+        return self2
 
 
 class Application(LambdaTerm):
@@ -123,9 +143,16 @@ class Application(LambdaTerm):
         return f'({self.function} {self.argument})'
 
     def substitute(self, rules):
-        if type(self.function)!=Abstraction: #the function has to be an abstraction, or else substitution is not possible
-            raise TypeError
+        self2=Application(self.function.substitute(rules),self.argument.substitute(rules))
+        return self2
+    
+    def reduce(self):
+        self2=Application(self.function.reduce(),self.argument)
+        if type(self2.function)==Abstraction:
+            rules={self2.function.variable:self2.argument}
+            self3=self2.function.body.substitute(rules)
+            self3.reduce()
+            return self3
         else:
-            for i in range(len(function.body)):
-                if self.function.body[i]==self.argument:
-                    self.function[i]=self.argument
+            self3=Application(self2.function,self.argument.reduce())
+            return self3
