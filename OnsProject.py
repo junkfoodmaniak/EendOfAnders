@@ -57,7 +57,7 @@ class Abstraction(LambdaTerm):
     def __call__(self, argument):
         rules={self.variable:argument}
         self2=self.body.substitute(rules)
-        return
+        return self2
 
     def substitute(self, rules):
         if self.variable in rules:
@@ -100,4 +100,6 @@ class Application(LambdaTerm):
             return self2
         
 
-print(Application(Abstraction(Variable("x"),Variable("x")),Variable("x")).reduce())
+#print(Application(Abstraction(Variable("x"),Variable("x")),Variable("x")).reduce())
+Identity=Abstraction(Variable("x"),Variable("x"))
+print(Identity(Variable("x")))
