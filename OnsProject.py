@@ -64,9 +64,9 @@ class LambdaTerm:
         if len(easierlist[0])!=0 and len(easierlist[1])==0 and len(easierlist[2])==0:
             return f'Variable({easierlist[0]})'
         elif len(easierlist[0])!=0 and len(easierlist[1])!=0 and len(easierlist[2])==0:
-            return f'Abstraction({fromstring(easierlist[0])},{fromstring(easierlist[1])})'
+            return f'Abstraction({LambdaTerm.fromstring(easierlist[0])},{LambdaTerm.fromstring(easierlist[1])})'
         elif len(easierlist[0])!=0 and len(easierlist[1])!=0 and len(easierlist[2])!=0:
-            return f'Application(Abstraction({fromstring(easierlist[0])},{fromstring(easierlist[1])}),{fromstring(easierlist[2])})'
+            return f'Application(Abstraction({LambdaTerm.fromstring(easierlist[0])},{LambdaTerm.fromstring(easierlist[1])}),{LambdaTerm.fromstring(easierlist[2])})'
         #this last part is a recursive formula, which I explained in WhatsApp
 
     def substitute(self, rules):
