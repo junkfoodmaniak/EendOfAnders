@@ -67,11 +67,10 @@ class LambdaTerm:
             return f'Abstraction({LambdaTerm.fromstring(easierlist[0])},{LambdaTerm.fromstring(easierlist[1])})'
         elif len(easierlist[0])!=0 and len(easierlist[1])!=0 and len(easierlist[2])!=0:
             return f'Application(Abstraction({LambdaTerm.fromstring(easierlist[0])},{LambdaTerm.fromstring(easierlist[1])}),{LambdaTerm.fromstring(easierlist[2])})'
-        #this last part is a recursive formula, which I explained in WhatsApp
 
     def substitute(self, rules):
         """Substitute values for keys where they occur."""
-        #we don't have to implement this one because all possible forms of lambdaterm heb a substitute function of their own so if all goes well, this function never gets called.
+        #We don't have to implement this one because all possible forms of lambdaterm heb a substitute function of their own so if all goes well, this function never gets called.
         raise NotImplementedError
 
     def reduce(self):
