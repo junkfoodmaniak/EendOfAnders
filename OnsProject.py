@@ -121,7 +121,7 @@ class Abstraction(LambdaTerm):
         return self2
 
     def substitute(self, rules):
-        if self.variable in rules:
+        if self.variable.symbol in rules:
             return self
         else:
             self2=Abstraction(self.variable,self.body.substitute(rules))
