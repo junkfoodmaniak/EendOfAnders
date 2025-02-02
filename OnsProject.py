@@ -94,8 +94,10 @@ class Variable(LambdaTerm):
 
     def substitute(self, rules):
         if self.symbol in rules:
-            self.symbol=rules[self.symbol]
-        return self
+            self2=rules[self.symbol]
+        else:
+            self2=Variable(self.symbol)
+        return self2
     
     def reduce(self):
         return self
