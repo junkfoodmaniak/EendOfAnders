@@ -154,8 +154,8 @@ class Application(LambdaTerm):
         if type(self2.function)==Abstraction:
             rules={self2.function.variable.symbol:self2.argument}
             self3=self2.function.body.substitute(rules)
-            self3.reduce()
-            return self3
+            self4=self3.reduce()
+            return self4
         else:
             self3=Application(self2.function,self.argument.reduce())
             return self3
