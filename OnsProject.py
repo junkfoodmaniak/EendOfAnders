@@ -116,7 +116,7 @@ class Abstraction(LambdaTerm):
         return f'λ{self.variable}.{self.body}'
 
     def __call__(self, argument):
-        rules={self.variable:argument}
+        rules={self.variable.symbol:argument}
         self2=self.body.substitute(rules)
         return self2
 
@@ -161,3 +161,4 @@ class Application(LambdaTerm):
             return self3
 
 print(Application(Abstraction(Variable('a'),Abstraction(Variable('x'),Variable('a'))),Variable('y')).reduce())
+print((Abstraction(Variable('a'),Variable('a')))(Variable('x')))
