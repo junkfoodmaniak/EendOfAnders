@@ -1,10 +1,12 @@
-#wajow
 #!/usr/bin/env python3
 
 
 class LambdaTerm:
     """Abstract Base Class for lambda terms."""
     def fromstring(self):
+
+        if len(self)==1 and self!='λ':
+            return Variable(self)
 
         easierlist=[] #remove the lambda from the start of the lambda term (self)
         for i in range(len(self)):
@@ -59,14 +61,14 @@ class LambdaTerm:
 
         if ' ' in easierlist[0]: #if the "variable" has the form (x y), return
             easierlist[0]=easierlist[0].strip('()').split(" ") #Application(Variable('x'),Variable('y'))
-            return f'Application(Variable({easierlist[0][0]}),Variable({easierlist[0][1]}))'
+            return Application(Variable({easierlist[0][0]}),Variable({easierlist[0][1]}))
 
         if len(easierlist[0])!=0 and len(easierlist[1])==0 and len(easierlist[2])==0:
-            return f'Variable({easierlist[0]})'
+            return Variable(easierlist[0])
         elif len(easierlist[0])!=0 and len(easierlist[1])!=0 and len(easierlist[2])==0:
-            return f'Abstraction({LambdaTerm.fromstring(easierlist[0])},{LambdaTerm.fromstring(easierlist[1])})'
+            return Abstraction(LambdaTerm.fromstring(easierlist[0]),LambdaTerm.fromstring(easierlist[1]))
         elif len(easierlist[0])!=0 and len(easierlist[1])!=0 and len(easierlist[2])!=0:
-            return f'Application(Abstraction({LambdaTerm.fromstring(easierlist[0])},{LambdaTerm.fromstring(easierlist[1])}),{LambdaTerm.fromstring(easierlist[2])})'
+            return Application(Abstraction(LambdaTerm.fromstring(easierlist[0]),LambdaTerm.fromstring(easierlist[1])),LambdaTerm.fromstring(easierlist[2]))
 
     def substitute(self, rules):
         """Substitute values for keys where they occur."""
