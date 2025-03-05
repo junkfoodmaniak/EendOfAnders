@@ -32,7 +32,7 @@ class LambdaTerm:
             self='' #so then self is appended to easierlist instead of firstelement
         
 
-        spaceindex=-1 #Most confusing step of all! <3
+        spaceindex=-1
         openingbracketindex=-1
         closingbracketindex=-1 #From the end of the list to the start of the list, this loop will
         for k in range(len(self)-1,-1,-1): #try to find spaces, so that everything before this space is the
@@ -116,12 +116,12 @@ class Abstraction(LambdaTerm):
         return f'λ{self.variable}.{self.body}'
 
     def __call__(self, argument):
-        rules={self.variable.symbol:argument}
+        rules={self.variable:argument}
         self2=self.body.substitute(rules)
         return self2
 
     def substitute(self, rules):
-        if self.variable.symbol in rules:
+        if self.variable in rules:
             return self
         else:
             self2=Abstraction(self.variable,self.body.substitute(rules))
@@ -159,6 +159,3 @@ class Application(LambdaTerm):
         else:
             self3=Application(self2.function,self.argument.reduce())
             return self3
-
-print(Application(Abstraction(Variable('a'),Abstraction(Variable('x'),Variable('a'))),Variable('y')).reduce())
-print((Abstraction(Variable('a'),Variable('a')))(Variable('x')))
